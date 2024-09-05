@@ -3,22 +3,24 @@
 declare(strict_types=1);
 
 namespace AppCoreDonativo\application;
-use AppCoreDonativo\interfaces\UseCase;
+
+use AppCoreDonativo\infra\Logger;
+use AppCoreDonativo\interfaces\DataRequestDonativo;
 use AppCoreDonativo\usecase\TipoDonativoUseCase;
 
 class APIDonativo {
-    private UseCase $donativo;
-
-    public function __construct(TipoDonativoUseCase $donativo) {
-        $this->donativo = $donativo;
-    }
-
-
-    public function validaDonativo(mixed $data) : void
+    /**
+     * @param \AppCoreDonativo\infra\dataClass\DonativoRequest $data
+     * @throws \Exception
+     * @return void
+     */
+    public function validaDonativo(DataRequestDonativo $data) : void
     {
         try {
-            $this->donativo->execute($data);
+            $donativo = new TipoDonativoUseCase;
+            $donativo->execute($data);
         } catch(\Exception $ex) {
+            Logger::error($ex->getMessage());
             throw new \Exception($ex->getMessage());
         }
     }   

@@ -8,7 +8,7 @@ readonly class Donativo {
 
     public function __construct(
        public string $tipo,
-       public string $quantidade,
+       public int $quantidade,
        public string $nome,
        public string $descricao
     ){
